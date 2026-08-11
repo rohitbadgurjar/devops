@@ -1,10 +1,7 @@
-
-  
-    {
-      "name": "Sonam Bhurani ",
-      "email": "sonam@example.com",
-      "mobile": "9876543210",
-      "password": "sonam123",
-      "branch": "CSE"
-    }
-  
+{
+  "name": "Sanya",
+  "email": "sanya@gmail.com",
+  "mobile": "9876543210",
+  "branch": "CSE",
+  "password": "123456"
+}

@@ -1,51 +1,57 @@
-const form = document.getElementById("studentForm");
-const tbody = document.querySelector("#studentTable tbody");
+document.getElementById("registrationForm").addEventListener("submit", function(event) {
+    event.preventDefault();
 
-let students = [];
+    let name = document.getElementById("name").value.trim();
+    let email = document.getElementById("email").value.trim();
+    let phone = document.getElementById("phone").value.trim();
+    let course = document.getElementById("course").value;
+    let password = document.getElementById("password").value;
+    let confirmPassword = document.getElementById("confirmPassword").value;
 
-// Load data from JSON file
-fetch("students.json")
-.then(response => response.json())
-.then(data => {
-    students = data;
-    displayStudents();
-});
+    let message = document.getElementById("message");
 
-function displayStudents() {
+    message.style.color = "red";
+    message.innerHTML = "";
 
-    tbody.innerHTML = "";
+    if (name === "") {
+        message.innerHTML = "Student Name is required.";
+        return;
+    }
+    
+    if (!/^[A-Za-z]+( [A-Za-z]+)*$/.test(name)) {
+        message.innerHTML = "Student Name should contain only alphabets.";
+        return;
+    }
 
-    students.forEach(student => {
+    let emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
 
-        let row = `
-        <tr>
-            <td>${student.name}</td>
-            <td>${student.mobile}</td>
-            <td>${student.email}</td>
-            <td>${student.branch}</td>
-        </tr>`;
+    if (!email.match(emailPattern)) {
+        message.innerHTML = "Enter a valid email address.";
+        return;
+    }
 
-        tbody.innerHTML += row;
-    });
+    if (phone.length !== 10 || isNaN(phone)) {
+        message.innerHTML = "Enter a valid 10-digit phone number.";
+        return;
+    }
 
-}
+    if (course === "") {
+        message.innerHTML = "Please select a course.";
+        return;
+    }
 
-form.addEventListener("submit", function(e){
+    if (password.length < 8) {
+        message.innerHTML = "Password must be at least 8 characters.";
+        return;
+    }
 
-    e.preventDefault();
+    if (password !== confirmPassword) {
+        message.innerHTML = "Passwords do not match.";
+        return;
+    }
 
-    const student = {
-        name: document.getElementById("name").value,
-        mobile: document.getElementById("mobile").value,
-        email: document.getElementById("email").value,
-        branch: document.getElementById("branch").value
-    };
+    message.style.color = "green";
+    message.innerHTML = "Registration Successful!";
 
-    students.push(student);
-
-    displayStudents();
-
-    form.reset();
-
-    alert("Student Registered Successfully!");
+    document.getElementById("registrationForm").reset();
 });
